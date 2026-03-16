@@ -1,3 +1,6 @@
+import java.util.Date;
+import java.util.Calendar;
+
 public class Calculoimc {
 
     private String nome;
@@ -6,16 +9,16 @@ public class Calculoimc {
     private double altura;
     private double peso;
     private double imc;
+    private Date dataNascimento; 
 
-
-    public Calculoimc(String nome, String sobrenome, int idade, double altura, double peso) {
+    public Calculoimc(String nome, String sobrenome, Date dataNascimento, double altura, double peso) {
         this.nome = nome;
         this.sobrenome = sobrenome;
-        this.idade = idade;
+        this.dataNascimento = dataNascimento;
         this.altura = altura;
         this.peso = peso;
+        this.idade = calculaIdade(dataNascimento); // calcula automaticamente
     }
-
 
     public String getNome() {
         return nome;
@@ -33,12 +36,17 @@ public class Calculoimc {
         this.sobrenome = sobrenome;
     }
 
-    public int getIdade() {
-        return idade;
+    public Date getDataNascimento() {
+        return dataNascimento;
     }
 
-    public void setIdade(int idade) {
-        this.idade = idade;
+    public void setDataNascimento(Date dataNascimento) {
+        this.dataNascimento = dataNascimento;
+        this.idade = calculaIdade(dataNascimento);
+    }
+
+    public int getIdade() {
+        return idade;
     }
 
     public double getAltura() {
@@ -61,10 +69,27 @@ public class Calculoimc {
         return imc;
     }
 
-
+  
     public double calculaIMC() {
         imc = peso / (altura * altura);
         return imc;
+    }
+
+  
+    public int calculaIdade(Date dataNascimento) {
+
+        Calendar dataNasc = Calendar.getInstance();
+        dataNasc.setTime(dataNascimento);
+
+        Calendar hoje = Calendar.getInstance();
+
+        int idade = hoje.get(Calendar.YEAR) - dataNasc.get(Calendar.YEAR);
+
+        if (hoje.get(Calendar.DAY_OF_YEAR) < dataNasc.get(Calendar.DAY_OF_YEAR)) {
+            idade--;
+        }
+
+        return idade;
     }
 
     public String informaObesidade() {
